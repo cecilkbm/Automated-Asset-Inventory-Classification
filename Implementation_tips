@@ -1,0 +1,24 @@
+Implementation Tips for Your Project:
+
+1. Add control references in playbook comments:
+
+---
+# Play 3: Access Control Hardening
+# NIST CSF Controls: PR.AC-1, PR.AC-3, PR.AC-4, PR.AC-7
+- name: Implement Access Control Hardening
+  hosts: all
+  tasks:
+    # PR.AC-1: Credential management
+    - name: Configure password complexity
+      ...
+
+2. Create a compliance matrix showing which plays address which controls
+3. Generate reports that map your automation coverage to NIST CSF
+4. Use tags to run plays by NIST CSF function:
+
+tags:
+  - identify
+  - ID.AM-1
+  - asset_management
+
+This comprehensive mapping shows how your Ansible automation project directly implements the NIST Cybersecurity Framework, making it perfect for your LinkedIn portfolio!RetryClaude does not have the ability to run the code it generates yet.i

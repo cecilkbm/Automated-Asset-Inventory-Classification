@@ -1,0 +1,122 @@
+IDENTIFY (ID) Function
+Play 1: Asset Inventory and Classification
+
+ID.AM-1: Physical devices and systems within the organization are inventoried
+ID.AM-2: Software platforms and applications within the organization are inventoried
+ID.AM-3: Organizational communication and data flows are mapped
+ID.AM-4: External information systems are catalogued
+ID.AM-5: Resources (hardware, devices, data, time, personnel, and software) are prioritized based on classification, criticality, and business value
+
+Play 2: Vulnerability Assessment
+
+ID.RA-1: Asset vulnerabilities are identified and documented
+ID.RA-2: Cyber threat intelligence is received from information sharing forums and sources
+ID.RA-3: Threats, both internal and external, are identified and documented
+ID.RA-5: Threats, vulnerabilities, likelihoods, and impacts are used to determine risk
+ID.RA-6: Risk responses are identified and prioritized
+
+PROTECT (PR) Function
+Play 3: Access Control Hardening
+
+PR.AC-1: Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes
+PR.AC-3: Remote access is managed
+PR.AC-4: Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties
+PR.AC-5: Network integrity is protected (e.g., network segregation, network segmentation)
+PR.AC-6: Identities are proofed and bound to credentials and asserted in interactions
+PR.AC-7: Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction
+
+Play 4: System Hardening
+
+PR.IP-1: A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)
+PR.IP-3: Configuration change control processes are in place
+PR.PT-1: Audit/log records are determined, documented, implemented, and reviewed in accordance with policy
+PR.PT-3: The principle of least functionality is incorporated by configuring systems to provide only essential capabilities
+PR.PT-4: Communications and control networks are protected
+
+Play 5: Data Protection
+
+PR.DS-1: Data-at-rest is protected
+PR.DS-2: Data-in-transit is protected
+PR.DS-5: Protections against data leaks are implemented
+PR.DS-6: Integrity checking mechanisms are used to verify software, firmware, and information integrity
+PR.IP-4: Backups of information are conducted, maintained, and tested
+
+Play 6: Patch Management
+
+PR.IP-12: A vulnerability management plan is developed and implemented
+PR.MA-1: Maintenance and repair of organizational assets are performed and logged, with approved and controlled tools
+ID.RA-1: Asset vulnerabilities are identified and documented (validation post-patch)
+
+DETECT (DE) Function
+Play 7: Logging and Monitoring Setup
+
+DE.CM-1: The network is monitored to detect potential cybersecurity events
+DE.CM-3: Personnel activity is monitored to detect potential cybersecurity events
+DE.CM-6: External service provider activity is monitored to detect potential cybersecurity events
+DE.CM-7: Monitoring for unauthorized personnel, connections, devices, and software is performed
+DE.AE-3: Event data are collected and correlated from multiple sources and sensors
+PR.PT-1: Audit/log records are determined, documented, implemented, and reviewed in accordance with policy
+
+Play 8: Security Event Detection
+
+DE.AE-1: A baseline of network operations and expected data flows for users and systems is established and managed
+DE.AE-2: Detected events are analyzed to understand attack targets and methods
+DE.AE-4: Impact of events is determined
+DE.AE-5: Incident alert thresholds are established
+DE.CM-4: Malicious code is detected
+DE.CM-8: Vulnerability scans are performed
+DE.DP-2: Detection activities comply with all applicable requirements
+DE.DP-4: Event detection information is communicated
+
+RESPOND (RS) Function
+Play 9: Incident Response Preparation
+
+RS.RP-1: Response plan is executed during or after an incident
+RS.CO-1: Personnel know their roles and order of operations when a response is needed
+RS.CO-2: Incidents are reported consistent with established criteria
+RS.CO-3: Information is shared consistent with response plans
+RS.AN-1: Notifications from detection systems are investigated
+RS.AN-3: Forensics are performed
+
+Play 10: Automated Response Actions
+
+RS.MI-1: Incidents are contained
+RS.MI-2: Incidents are mitigated
+RS.MI-3: Newly identified vulnerabilities are mitigated or documented as accepted risks
+RS.AN-2: The impact of the incident is understood
+RS.CO-4: Coordination with stakeholders occurs consistent with response plans
+RS.CO-5: Voluntary information sharing occurs with external stakeholders to achieve broader cybersecurity situational awareness
+
+RECOVER (RC) Function
+Play 11: System Recovery
+
+RC.RP-1: Recovery plan is executed during or after a cybersecurity incident
+RC.IM-1: Recovery plans incorporate lessons learned
+RC.CO-3: Recovery activities are communicated to internal and external stakeholders as well as executive and management teams
+PR.IP-4: Backups of information are conducted, maintained, and tested (restoration validation)
+PR.IP-9: Response plans (Incident Response and Business Continuity) and recovery plans (Incident Recovery and Disaster Recovery) are in place and managed
+
+Play 12: Post-Incident Validation
+
+RC.IM-1: Recovery plans incorporate lessons learned
+RC.IM-2: Recovery strategies are updated
+RC.CO-3: Recovery activities are communicated to internal and external stakeholders
+DE.DP-5: Detection processes are continuously improved
+PR.IP-1: A baseline configuration is verified post-recovery
+
+Cross-Cutting Controls (Multiple Plays)
+These controls span multiple plays:
+Governance & Risk Management:
+
+ID.GV-1: Organizational cybersecurity policy is established and communicated
+ID.GV-3: Legal and regulatory requirements regarding cybersecurity are understood and managed
+ID.RM-1: Risk management processes are established, managed, and agreed to by organizational stakeholders
+
+Awareness & Training:
+
+PR.AT-1: All users are informed and trained
+PR.AT-2: Privileged users understand their roles and responsibilities
+
+Supply Chain Risk Management:
+
+ID.SC-1: Cyber supply chain risk management processes are identified, established, assessed, managed, and agreed to by organizational stakeholders

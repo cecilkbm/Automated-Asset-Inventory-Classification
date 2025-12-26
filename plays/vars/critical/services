@@ -1,0 +1,15 @@
+---
+# Asset criticality classification rules (customize based on your environment)
+critical_services:
+- sshd
+- httpd
+- nginx
+- apache
+- postgresql
+- mysql
+- mysqld
+- docker
+- containerd
+- kubernetes
+- redis
+- mongodb

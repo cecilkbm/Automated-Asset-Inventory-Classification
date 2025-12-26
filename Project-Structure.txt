@@ -1,0 +1,142 @@
+This is a project folder
+Project Name:NIST Security Automation
+Goal: Harden managed host security via Ansbile Play-books
+
+1. IDENTIFY Function
+Objective: Develop organizational understanding of cybersecurity risks
+
+Play 1: Asset Inventory and Classification
+NIST CSF: ID.AM (Asset Management)
+- Gather system information (OS, version, hardware)
+- Enumerate installed software packages
+- Identify running services and open ports
+- Document network interfaces and IP configurations
+- Tag assets by criticality (high/medium/low)
+- Store inventory in central fact cache or CMDB
+
+Play 2: Vulnerability Assessment
+NIST CSF: ID.RA (Risk Assessment)
+- Check for outdated packages/software versions
+- Scan for known CVEs using vulnerability databases
+- Verify SSL/TLS certificate expiration dates
+- Check for default credentials on common services
+- Generate risk score per host
+- Create vulnerability report
+
+2. PROTECT Function
+Objective: Implement safeguards to ensure delivery of services
+
+Play 3: Access Control Hardening
+NIST CSF: PR.AC (Access Control)
+- Enforce password complexity policies
+- Configure account lockout thresholds
+- Disable unnecessary user accounts
+- Implement SSH key-based authentication
+- Disable root login via SSH
+- Configure sudo access with least privilege
+- Set up MFA where applicable
+
+Play 4: System Hardening
+NIST CSF: PR.IP (Information Protection Processes)
+- Apply CIS benchmarks or STIG guidelines
+- Disable unnecessary services
+- Configure host-based firewall (iptables/firewalld)
+- Set proper file permissions on sensitive files
+- Enable SELinux/AppArmor
+- Configure secure logging
+- Disable USB storage if not needed
+
+Play 5: Data Protection
+NIST CSF: PR.DS (Data Security)
+- Encrypt data at rest (LUKS/dm-crypt)
+- Configure encrypted backup destinations
+- Set up file integrity monitoring (AIDE/Tripwire)
+- Implement data retention policies
+- Configure secure NFS/SMB shares with proper permissions
+
+Play 6: Patch Management
+NIST CSF: PR.IP-12 (Vulnerability Management)
+- Check available security updates
+- Create system snapshots/backups before patching
+- Apply critical security patches
+- Update system firmware (where applicable)
+- Reboot systems if required
+- Verify patch application
+
+3. DETECT Function
+Objective: Identify occurrence of cybersecurity events
+
+Play 7: Logging and Monitoring Setup
+NIST CSF: DE.CM (Continuous Monitoring)
+- Configure centralized logging (rsyslog/syslog-ng)
+- Set up log rotation policies
+- Enable auditd for system call auditing
+- Configure failed authentication logging
+- Set up alerts for suspicious activities
+- Deploy OSSEC/Wazuh agents
+
+Play 8: Security Event Detection
+NIST CSF: DE.AE (Anomalies and Events)
+- Monitor for failed login attempts
+- Detect privilege escalation attempts
+- Check for unauthorized file modifications
+- Scan for rootkits (rkhunter/chkrootkit)
+- Monitor network connections for anomalies
+- Check for indicators of compromise (IoCs)
+
+4. RESPOND Function
+Objective: Take action regarding detected cybersecurity incidents
+
+Play 9: Incident Response Preparation
+NIST CSF: RS.RP (Response Planning)
+- Create incident response playbook structure
+- Document chain of custody procedures
+- Set up isolated forensic environment
+- Configure automated backup triggers
+- Establish communication channels (Slack/email notifications)
+
+Play 10: Automated Response Actions
+NIST CSF: RS.MI (Mitigation)
+- Block malicious IPs via firewall
+- Isolate compromised systems (network segmentation)
+- Disable compromised user accounts
+- Kill suspicious processes
+- Snapshot system state for forensics
+- Trigger alerts to security team
+
+5. RECOVER Function
+Objective: Restore capabilities or services impaired due to incident
+
+Play 11: System Recovery
+NIST CSF: RC.RP (Recovery Planning)
+- Restore from known-good backups
+- Rebuild compromised systems from baseline
+- Verify system integrity post-recovery
+- Re-apply security configurations
+- Validate service functionality
+- Document lessons learned
+
+Play 12: Post-Incident Validation
+NIST CSF: RC.IM (Improvements)
+- Run compliance checks against baseline
+- Verify all security controls are operational
+- Re-scan for vulnerabilities
+- Update security policies based on incident
+- Generate post-incident report
+
+Project Enhancement Ideas
+Master Playbook Structure:
+- Include variables for environment (dev/staging/prod)
+- Use Ansible Vault for sensitive data
+- Implement tags for selective execution
+- Create roles for reusability
+- Use handlers for service restarts
+- Implement idempotency checks
+- Add dry-run/check mode support
+
+Reporting & Documentation:
+- Generate HTML compliance reports
+- Create dashboards with metrics
+- Map each play to specific NIST CSF controls
+- Include references to control IDs in play comments
+- Track compliance percentage

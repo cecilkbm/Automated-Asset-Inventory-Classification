@@ -1,0 +1,10 @@
+---
+critical_ports:
+- 22    # SSH
+- 443   # HTTPS
+- 3306  # MySQL
+- 5432  # PostgreSQL
+- 6379  # Redis
+- 27017 # MongoDB
+- 8080  # Common HTTP alternate
+- 9090  # Common admin interface

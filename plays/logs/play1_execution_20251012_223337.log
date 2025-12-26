@@ -1,0 +1,283 @@
+[0;34m[INFO][0m Execution started at: Sun Oct 12 10:33:37 PM EDT 2025
+[0;34m[INFO][0m Script directory: /home/ansible/NIST-CSF-SecurityAutomation/plays
+[0;34m[INFO][0m Checking prerequisites...
+[0;32m[SUCCESS][0m Ansible found: ansible [core 2.14.18]
+[0;32m[SUCCESS][0m Playbook found: /home/ansible/NIST-CSF-SecurityAutomation/plays/play1_asset_inventory.yml
+[0;32m[SUCCESS][0m Inventory found: /home/ansible/NIST-CSF-SecurityAutomation/plays/inventory
+[0;32m[SUCCESS][0m Configuration found: /home/ansible/NIST-CSF-SecurityAutomation/plays/ansible.cfg
+[0;32m[SUCCESS][0m All prerequisite checks passed
+[0;34m[INFO][0m Validating inventory...
+[0;32m[SUCCESS][0m Inventory validation passed
+[0;34m[INFO][0m Total hosts in inventory: 0
+[0;34m[INFO][0m Testing connectivity to hosts...
+ansible3 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+ansible1 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+ansible5 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+ansible2 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+ansible4 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+[0;32m[SUCCESS][0m Connectivity test passed
+[0;34m[INFO][0m Starting playbook execution...
+[0;34m[INFO][0m Execution log: /home/ansible/NIST-CSF-SecurityAutomation/plays/logs/play1_execution_20251012_223337.log
+[0;34m[INFO][0m Executing: ansible-playbook -i /home/ansible/NIST-CSF-SecurityAutomation/plays/inventory /home/ansible/NIST-CSF-SecurityAutomation/plays/play1_asset_inventory.yml
+----------------------------------------
+
+PLAY [NIST CSF - Play 1: Asset Inventory and Classification] *******************
+
+TASK [Gathering Facts] *********************************************************
+ok: [ansible5]
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+
+TASK [ID.AM-1 | Create inventory output directory] *****************************
+ok: [ansible1 -> localhost]
+
+TASK [ID.AM-1 | Gather comprehensive system facts] *****************************
+ok: [ansible1]
+ok: [ansible5]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible2]
+
+TASK [ID.AM-1 | Collect hardware information] **********************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-1 | Collect operating system information] **************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-1 | Collect storage information] ***********************************
+ok: [ansible1]
+ok: [ansible3]
+ok: [ansible2]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-2 | Gather installed packages (RedHat/AlmaLinux)] ******************
+ok: [ansible1]
+ok: [ansible3]
+ok: [ansible5]
+ok: [ansible2]
+ok: [ansible4]
+
+TASK [ID.AM-2 | Create software inventory list] ********************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-2 | Identify running services] *************************************
+ok: [ansible3]
+ok: [ansible5]
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible4]
+
+TASK [ID.AM-2 | Create service inventory] **************************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-3 | Collect network interface information] *************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-4 | Identify DNS servers] ******************************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-4 | Identify configured repositories (RedHat/CentOS)] **************
+ok: [ansible3]
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-4 | Create external systems inventory] *****************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-5 | Determine asset criticality based on services] *****************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-5 | Determine asset criticality based on ports] ********************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-5 | Calculate asset criticality level] *****************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [ID.AM-5 | Tag asset with metadata] ***************************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [Consolidate complete asset inventory] ************************************
+ok: [ansible1]
+ok: [ansible2]
+ok: [ansible3]
+ok: [ansible4]
+ok: [ansible5]
+
+TASK [Store inventory data locally (JSON format)] ******************************
+changed: [ansible5 -> localhost]
+changed: [ansible2 -> localhost]
+changed: [ansible3 -> localhost]
+changed: [ansible1 -> localhost]
+changed: [ansible4 -> localhost]
+
+TASK [Store inventory data locally (YAML format)] ******************************
+changed: [ansible1 -> localhost]
+changed: [ansible4 -> localhost]
+changed: [ansible5 -> localhost]
+changed: [ansible3 -> localhost]
+changed: [ansible2 -> localhost]
+
+TASK [Display asset summary] ***************************************************
+ok: [ansible1] => {
+    "msg": [
+        "==========================================",
+        "Asset Inventory Summary",
+        "==========================================",
+        "Hostname: ansible1",
+        "IP Address: 192.168.64.3",
+        "OS: AlmaLinux 9.6",
+        "Criticality: MEDIUM",
+        "Environment: UNCLASSIFIED",
+        "Running Services: 21",
+        "Open TCP Ports: 0",
+        "Installed Packages: 693",
+        "=========================================="
+    ]
+}
+ok: [ansible2] => {
+    "msg": [
+        "==========================================",
+        "Asset Inventory Summary",
+        "==========================================",
+        "Hostname: ansible2",
+        "IP Address: 192.168.64.4",
+        "OS: AlmaLinux 9.6",
+        "Criticality: MEDIUM",
+        "Environment: UNCLASSIFIED",
+        "Running Services: 23",
+        "Open TCP Ports: 0",
+        "Installed Packages: 892",
+        "=========================================="
+    ]
+}
+ok: [ansible3] => {
+    "msg": [
+        "==========================================",
+        "Asset Inventory Summary",
+        "==========================================",
+        "Hostname: ansible3",
+        "IP Address: 192.168.64.5",
+        "OS: AlmaLinux 9.6",
+        "Criticality: MEDIUM",
+        "Environment: UNCLASSIFIED",
+        "Running Services: 20",
+        "Open TCP Ports: 0",
+        "Installed Packages: 679",
+        "=========================================="
+    ]
+}
+ok: [ansible4] => {
+    "msg": [
+        "==========================================",
+        "Asset Inventory Summary",
+        "==========================================",
+        "Hostname: ansible4",
+        "IP Address: 192.168.64.6",
+        "OS: AlmaLinux 9.6",
+        "Criticality: MEDIUM",
+        "Environment: UNCLASSIFIED",
+        "Running Services: 25",
+        "Open TCP Ports: 0",
+        "Installed Packages: 1179",
+        "=========================================="
+    ]
+}
+ok: [ansible5] => {
+    "msg": [
+        "==========================================",
+        "Asset Inventory Summary",
+        "==========================================",
+        "Hostname: ansible5",
+        "IP Address: 192.168.64.8",
+        "OS: RedHat 9.6",
+        "Criticality: MEDIUM",
+        "Environment: UNCLASSIFIED",
+        "Running Services: 20",
+        "Open TCP Ports: 0",
+        "Installed Packages: 682",
+        "=========================================="
+    ]
+}
+
+TASK [Play 1 Completion Summary] ***********************************************
+ok: [ansible1] => {
+    "msg": [
+        "╔════════════════════════════════════════════════════════════╗",
+        "║  NIST CSF Play 1: Asset Inventory - COMPLETED              ║",
+        "╠════════════════════════════════════════════════════════════╣",
+        "║  NIST CSF Controls Addressed:                              ║",
+        "║    ✓ ID.AM-1: Physical devices inventoried                 ║",
+        "║    ✓ ID.AM-2: Software platforms inventoried               ║",
+        "║    ✓ ID.AM-3: Communication flows mapped                   ║",
+        "║    ✓ ID.AM-4: External systems catalogued                  ║",
+        "║    ✓ ID.AM-5: Resources prioritized by criticality         ║",
+        "╠════════════════════════════════════════════════════════════╣",
+        "║  Inventory Reports Location:                               ║",
+        "║    ./inventory_reports                                     ║",
+        "╚════════════════════════════════════════════════════════════╝"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+ansible1                   : ok=23   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ansible2                   : ok=21   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ansible3                   : ok=21   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ansible4                   : ok=21   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ansible5                   : ok=21   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[0;32m[SUCCESS][0m Playbook execution completed successfully
+[0;34m[INFO][0m Generating execution summary...
+[0;34m[INFO][0m Latest inventory reports:
+[0;34m[INFO][0m Cleaning up old reports (keeping last 30 days)...
+[0;32m[SUCCESS][0m Cleanup completed
+[0;32m[SUCCESS][0m All tasks completed successfully!
+[0;34m[INFO][0m Next steps:

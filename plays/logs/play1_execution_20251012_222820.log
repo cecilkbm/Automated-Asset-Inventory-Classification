@@ -1,0 +1,19 @@
+[0;34m[INFO][0m Execution started at: Sun Oct 12 10:28:20 PM EDT 2025
+[0;34m[INFO][0m Script directory: /home/ansible/NIST-CSF-SecurityAutomation/plays
+[0;34m[INFO][0m Checking prerequisites...
+[0;32m[SUCCESS][0m Ansible found: ansible [core 2.14.18]
+[0;32m[SUCCESS][0m Playbook found: /home/ansible/NIST-CSF-SecurityAutomation/plays/play1_asset_inventory.yml
+[0;32m[SUCCESS][0m Inventory found: /home/ansible/NIST-CSF-SecurityAutomation/plays/inventory
+[0;32m[SUCCESS][0m Configuration found: /home/ansible/NIST-CSF-SecurityAutomation/plays/ansible.cfg
+[0;32m[SUCCESS][0m All prerequisite checks passed
+[0;34m[INFO][0m Validating inventory...
+[0;32m[SUCCESS][0m Inventory validation passed
+[0;34m[INFO][0m Total hosts in inventory: 0
+[0;34m[INFO][0m Testing connectivity to hosts...
+anisble5 | UNREACHABLE!: Failed to connect to the host via ssh: ssh: Could not resolve hostname anisble5: Name or service not known
+ansible3 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+ansible1 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+ansible2 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+ansible4 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+[1;33m[WARNING][0m Some hosts are unreachable. Continue? (y/n)
+[0;34m[INFO][0m Execution cancelled by user

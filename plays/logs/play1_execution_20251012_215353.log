@@ -1,0 +1,10 @@
+[0;34m[INFO][0m Execution started at: Sun Oct 12 09:53:53 PM EDT 2025
+[0;34m[INFO][0m Script directory: /home/ansible/NIST-CSF-SecurityAutomation/plays
+[0;34m[INFO][0m Checking prerequisites...
+[0;32m[SUCCESS][0m Ansible found: ansible [core 2.14.18]
+[0;31m[ERROR][0m Playbook not found: /home/ansible/NIST-CSF-SecurityAutomation/plays/play_1_asset_inventory.yml
+[0;31m[ERROR][0m Inventory not found: /home/ansible/NIST-CSF-SecurityAutomation/plays/inventory/hosts.yml
+[0;32m[SUCCESS][0m Configuration found: /home/ansible/NIST-CSF-SecurityAutomation/plays/ansible.cfg
+[0;34m[INFO][0m Created directory: /home/ansible/NIST-CSF-SecurityAutomation/plays/fact_cache
+[0;34m[INFO][0m Created directory: /home/ansible/NIST-CSF-SecurityAutomation/plays/retry
+[0;31m[ERROR][0m Prerequisites check failed. Please resolve the issues above.

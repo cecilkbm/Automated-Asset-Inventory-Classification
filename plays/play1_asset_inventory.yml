@@ -1,0 +1,363 @@
+---
+################################################################################
+# Play 1: Asset Inventory and Classification
+# NIST CSF Function: IDENTIFY (ID)
+# NIST CSF Controls: ID.AM-1, ID.AM-2, ID.AM-3, ID.AM-4, ID.AM-5
+#
+# Purpose: Develop organizational understanding of systems, assets, data, and
+#          capabilities to manage cybersecurity risk
+#
+# Description:
+#   - Gathers comprehensive system information (OS, hardware, version)
+#   - Enumerates all installed software packages
+#   - Identifies running services and open network ports
+#   - Documents network interfaces and IP configurations
+#   - Tags assets by criticality level (high/medium/low)
+#   - Stores inventory data in centralized location for CMDB integration
+#
+# Prerequisites:
+#   - Ansible 2.9 or higher
+#   - SSH access to target hosts
+#   - Sudo privileges for system information gathering
+#
+# Usage:
+#   ansible-playbook play1_asset_inventory.yml
+#   ansible-playbook play1_asset_inventory.yml --limit production
+#   ansible-playbook play1_asset_inventory.yml --tags gather_hardware
+#
+# Author: Cecil Boamah-Mensah
+# Date: October 2025
+# Version: 1.0
+################################################################################
+
+- name: "NIST CSF - Play 1: Asset Inventory and Classification"
+  hosts: all
+  gather_facts: yes
+  vars_files: 
+    - vars/critical/services
+    - vars/critical/ports
+  vars:
+    inventory_output_dir: "./inventory_reports" # Output directory for inventory reports
+    inventory_timestamp: "{{ ansible_date_time.iso8601_basic_short }}"
+    default_criticality: "medium" # Default criticality level (can be overridden in host_vars)
+  tags:
+    - nist_csf
+    - identify
+    - asset_management
+    - ID.AM
+    - play_1
+  tasks:
+
+  # NIST CSF Control: ID.AM-1
+  # Physical devices and systems within the organization are inventoried
+  - name: "ID.AM-1 | Create inventory output directory"
+    ansible.builtin.file:
+      path: "{{ inventory_output_dir }}"
+      state: directory
+      mode: '0755'
+    delegate_to: localhost
+    run_once: true
+    tags:
+      - ID.AM-1
+      - setup
+
+  - name: "ID.AM-1 | Gather comprehensive system facts"
+    ansible.builtin.setup:
+      gather_subset:
+        - 'all'
+        - '!facter'
+        - '!ohai'
+    tags:
+      - ID.AM-1
+      - gather_facts
+          
+  - name: "ID.AM-1 | Collect hardware information"
+    ansible.builtin.set_fact:
+      asset_hardware_info:
+        hostname: "{{ ansible_hostname }}"
+        fqdn: "{{ ansible_fqdn }}"
+        system_vendor: "{{ ansible_system_vendor | default('Unknown') }}"
+        product_name: "{{ ansible_product_name | default('Unknown') }}"
+        product_serial: "{{ ansible_product_serial | default('Unknown') }}"
+        architecture: "{{ ansible_architecture }}"
+        processor_count: "{{ ansible_processor_count }}"
+        processor_cores: "{{ ansible_processor_cores }}"
+        processor_vcpus: "{{ ansible_processor_vcpus }}"
+        memory_mb: "{{ ansible_memtotal_mb }}"
+        virtualization_type: "{{ ansible_virtualization_type | default('physical') }}"
+        virtualization_role: "{{ ansible_virtualization_role | default('NA') }}"
+    tags:
+      - ID.AM-1
+      - gather_hardware
+
+  - name: "ID.AM-1 | Collect operating system information"
+    set_fact:
+      asset_os_info:
+        os_family: "{{ ansible_os_family }}"
+        distribution: "{{ ansible_distribution }}"
+        distribution_version: "{{ ansible_distribution_version }}"
+        distribution_release: "{{ ansible_distribution_release }}"
+        kernel: "{{ ansible_kernel }}"
+        kernel_version: "{{ ansible_kernel_version }}"
+        python_version: "{{ ansible_python_version }}"
+    tags:
+      - ID.AM-1
+      - gather_os
+
+  - name: "ID.AM-1 | Collect storage information"
+    set_fact:
+      asset_storage_info:
+        devices: "{{ ansible_devices.keys() | list }}"
+        mounts: "{{ ansible_mounts | map(attribute='mount') | list }}"
+        total_disk_gb: "{{ ansible_mounts | map(attribute='size_total') | sum / 1024 / 1024 / 1024 | round(2) }}"
+    tags:
+      - ID.AM-1
+      - gather_storage
+
+
+  # NIST CSF Control: ID.AM-2
+  # Software platforms and applications within the organization are inventoried
+  - name: "ID.AM-2 | Gather installed packages (RedHat/AlmaLinux)"
+    package_facts:
+      manager: rpm
+    when: ansible_os_family == "RedHat"
+    tags:
+      - ID.AM-2
+      - gather_software
+
+  - name: "ID.AM-2 | Create software inventory list"
+    set_fact:
+      asset_software_inventory:
+        package_count: "{{ ansible_facts.packages.keys() | length }}"
+        packages: "{{ ansible_facts.packages.keys() | list | sort }}"
+        critical_packages: "{{ ansible_facts.packages.keys() | select('search', 'ssh|http|nginx|mysql|postgres|docker') | list }}"
+    when: ansible_facts.packages is defined
+    tags:
+      - ID.AM-2
+      - gather_software
+
+  - name: "ID.AM-2 | Identify running services"
+    service_facts:
+    tags:
+      - ID.AM-2
+      - gather_services
+
+  - name: "ID.AM-2 | Create service inventory"
+    set_fact:
+      asset_service_inventory:
+        total_services: "{{ ansible_facts.services.keys() | length }}"
+        running_services: "{{ ansible_facts.services | dict2items | selectattr('value.state', 'equalto', 'running') | map(attribute='key') | list }}"
+        enabled_services: "{{ ansible_facts.services | dict2items | selectattr('value.status', 'equalto', 'enabled') | map(attribute='key') | list }}"
+    tags:
+      - ID.AM-2
+      - gather_services
+
+
+  # NIST CSF Control: ID.AM-3
+  # Organizational communication and data flows are mapped
+  - name: "ID.AM-3 | Collect network interface information"
+    set_fact:
+      asset_network_interfaces:
+        interfaces: "{{ ansible_interfaces }}"
+        interface_details: >-
+           {{
+              ansible_interfaces
+              | map('regex_replace', '^(.*)$', 'ansible_\1') 
+              | map('extract', hostvars[inventory_hostname]) 
+              | list 
+              | items2dict(key_name='device', value_name='ipv4')
+            }}
+        default_ipv4: "{{ ansible_default_ipv4 | default({}) }}"
+        default_ipv6: "{{ ansible_default_ipv6 | default({}) }}"
+        all_ipv4_addresses: "{{ ansible_all_ipv4_addresses }}"
+        all_ipv6_addresses: "{{ ansible_all_ipv6_addresses | default([]) }}"
+    when: ansible_facts is defined
+    tags:
+      - ID.AM-3
+      - gather_network
+
+
+  # NIST CSF Control: ID.AM-4
+  # External information systems are catalogued
+  - name: "ID.AM-4 | Identify DNS servers"
+    set_fact:
+      asset_dns_servers: "{{ ansible_dns.nameservers | default([]) }}"
+    tags:
+      - ID.AM-4
+      - external_systems
+  
+  - name: "ID.AM-4 | Identify configured repositories (RedHat/CentOS)"
+    shell: dnf repolist enabled 2>/dev/null | tail -n +2 | awk '{print $1}'
+    register: redhat_repos
+    when: ansible_os_family == "RedHat"
+    changed_when: false
+    failed_when: false
+    tags:
+      - ID.AM-4
+      - external_systems
+
+  - name: "ID.AM-4 | Create external systems inventory"
+    set_fact:
+      asset_external_systems:
+        dns_servers: "{{ asset_dns_servers }}"
+        repositories: "{{ (redhat_repos.stdout_lines | default([])) }}"
+        ntp_servers: "{{ ansible_date_time.tz }}"
+    tags:
+      - ID.AM-4
+      - external_systems
+
+  
+# NIST CSF Control: ID.AM-5
+# Resources are prioritized based on classification, criticality, and business value
+  - name: "ID.AM-5 | Determine asset criticality based on services"
+    set_fact:
+      has_critical_services: "{{ (asset_service_inventory.running_services | default([]) | intersect(critical_services)) | length > 0 }}"
+    tags:
+      - ID.AM-5
+      - criticality_assessment
+
+  - name: "ID.AM-5 | Determine asset criticality based on ports"
+    set_fact:
+      has_critical_ports: "{{ (asset_port_inventory.critical_ports_open | default([]) | length) > 0 }}"
+    tags:
+      - ID.AM-5
+      - criticality_assessment
+  
+  - name: "ID.AM-5 | Calculate asset criticality level"
+    set_fact:
+      asset_criticality: >-
+        {%- if asset_criticality is defined -%}
+          {{ asset_criticality }}
+        {%- elif has_critical_services or has_critical_ports -%}
+          high
+        {%- elif 'prod' in group_names or 'production' in group_names -%}
+          high
+        {%- elif 'staging' in group_names or 'stg' in group_names -%}
+          medium
+        {%- elif 'dev' in group_names or 'development' in group_names -%}
+          low
+        {%- else -%}
+          {{ default_criticality }}
+        {%- endif -%}
+    tags:
+      - ID.AM-5
+      - criticality_assessment
+
+  - name: "ID.AM-5 | Tag asset with metadata"
+    set_fact:
+      asset_classification:
+        criticality: "{{ asset_criticality }}"
+        environment: >-
+          {%- if 'prod' in group_names or 'production' in group_names -%}
+            production
+          {%- elif 'staging' in group_names or 'stg' in group_names -%}
+            staging
+          {%- elif 'dev' in group_names or 'development' in group_names -%}
+            development
+          {%- else -%}
+            unclassified
+          {%- endif -%}
+        data_sensitivity: "{{ data_sensitivity | default('internal') }}"
+        business_unit: "{{ business_unit | default('IT') }}"
+        asset_owner: "{{ asset_owner | default('System Administrator') }}"
+        compliance_scope: "{{ compliance_scope | default(['NIST_CSF']) }}"
+    tags:
+      - ID.AM-5
+      - criticality_assessment
+
+
+ # Consolidate and Store Inventory Data
+  - name: "Consolidate complete asset inventory"
+    set_fact:
+      complete_asset_inventory:
+        inventory_metadata:
+          collection_date: "{{ ansible_date_time.iso8601 }}"
+          ansible_version: "{{ ansible_version.full }}"
+          playbook: "play_1_asset_inventory.yml"
+          nist_csf_controls:
+            - "ID.AM-1"
+            - "ID.AM-2"
+            - "ID.AM-3"
+            - "ID.AM-4"
+            - "ID.AM-5"
+        asset_identification:
+          hostname: "{{ ansible_hostname }}"
+          fqdn: "{{ ansible_fqdn }}"
+          ip_address: "{{ ansible_default_ipv4.address | default('N/A') }}"
+          asset_id: "{{ inventory_hostname }}"
+        hardware: "{{ asset_hardware_info }}"
+        operating_system: "{{ asset_os_info }}"
+        storage: "{{ asset_storage_info }}"
+        software: "{{ asset_software_inventory | default({}) }}"
+        services: "{{ asset_service_inventory | default({}) }}"
+        network: "{{ asset_network_interfaces }}"
+        ports: "{{ asset_port_inventory | default({}) }}"
+        external_systems: "{{ asset_external_systems }}"
+        classification: "{{ asset_classification }}"
+        risk_indicators:
+          critical_services_count: "{{ (asset_service_inventory.running_services | default([]) | intersect(critical_services)) | length }}"
+          critical_ports_count: "{{ asset_port_inventory.critical_ports_open | default([]) | length }}"
+          established_connections: "{{ established_connections.stdout | default('0') }}"
+      tags:
+        - consolidate
+        - store_inventory
+
+  - name: "Store inventory data locally (JSON format)"
+    copy:
+      content: "{{ complete_asset_inventory | to_nice_json }}"
+      dest: "{{ inventory_output_dir }}/{{ inventory_hostname }}_{{ inventory_timestamp }}.json"
+      mode: '0644'
+    delegate_to: localhost
+    tags:
+      - consolidate
+      - store_inventory
+
+  - name: "Store inventory data locally (YAML format)"
+    copy:
+      content: "{{ complete_asset_inventory | to_nice_yaml }}"
+      dest: "{{ inventory_output_dir }}/{{ inventory_hostname }}_{{ inventory_timestamp }}.yml"
+      mode: '0644'
+    delegate_to: localhost
+    tags:
+      - consolidate
+      - store_inventory
+
+  - name: "Display asset summary"
+    debug:
+      msg:
+        - "=========================================="
+        - "Asset Inventory Summary"
+        - "=========================================="
+        - "Hostname: {{ ansible_hostname }}"
+        - "IP Address: {{ ansible_default_ipv4.address | default('N/A') }}"
+        - "OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+        - "Criticality: {{ asset_criticality | upper }}"
+        - "Environment: {{ asset_classification.environment | upper }}"
+        - "Running Services: {{ asset_service_inventory.running_services | default([]) | length }}"
+        - "Open TCP Ports: {{ asset_port_inventory.tcp_ports | default([]) | length }}"
+        - "Installed Packages: {{ asset_software_inventory.package_count | default(0) }}"
+        - "=========================================="
+    tags:
+      - display_summary
+
+# Post-Play Summary
+  post_tasks:
+  - name: "Play 1 Completion Summary"
+    debug:
+      msg:
+        - "╔════════════════════════════════════════════════════════════╗"
+        - "║  NIST CSF Play 1: Asset Inventory - COMPLETED              ║"
+        - "╠════════════════════════════════════════════════════════════╣"
+        - "║  NIST CSF Controls Addressed:                              ║"
+        - "║    ✓ ID.AM-1: Physical devices inventoried                 ║"
+        - "║    ✓ ID.AM-2: Software platforms inventoried               ║"
+        - "║    ✓ ID.AM-3: Communication flows mapped                   ║"
+        - "║    ✓ ID.AM-4: External systems catalogued                  ║"
+        - "║    ✓ ID.AM-5: Resources prioritized by criticality         ║"
+        - "╠════════════════════════════════════════════════════════════╣"
+        - "║  Inventory Reports Location:                               ║"
+        - "║    {{ inventory_output_dir }}                                     ║"
+        - "╚════════════════════════════════════════════════════════════╝"
+    run_once: true
+    tags:
+      - always
