@@ -68,4 +68,5 @@ Throughout development, I leveraged ChatGPT (GPT-5) and Claude to:
 AI tools accelerated iteration while architectural decisions and validation remained manual.
 
 ## 📷 Preview
-(Optional: Add a screenshot or terminal recording here)
+<img width="1920" height="1080" alt="S4" src="https://github.com/user-attachments/assets/eef53d11-0ff5-4c0c-856e-83ad1ac3d62c" />
+
