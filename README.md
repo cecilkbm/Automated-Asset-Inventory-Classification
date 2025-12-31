@@ -4,32 +4,32 @@ This project focuses on building repeatable, production-safe automation that imp
 
 ---
 
-## ✨ Technologies
+## Technologies
   - Ansible
   - YAML
   - Jinja2 templating
   - JSON / YAML / HTML reporting
   - Linux system utilities
   - NIST Cybersecurity Framework (CSF)
-
-## 🚀 Features
+#
+## Features
   - Automated discovery of enterprise assets
   - Collection of system metadata (OS, hardware, versions)
-  - Enumeration of:
-    - Installed software
-    - Running services
-    - Open TCP ports
+  - Enumerates:
+      - Installed software
+      - Running services
+      - Open TCP ports
   - Network interface and IP configuration mapping
   - Asset classification by environment and criticality
   - Multi-format reporting for CMDB and compliance workflows:
-    - JSON
-    - YAML
-    - HTML
+      - JSON
+      - YAML
+      - HTML
   - Production-grade runner with:
-    - Pre-flight environment checks
-    - Variable validation
-    - Fail-safe execution logic before every run
-
+      - Pre-flight environment checks
+      - Variable validation
+      - Fail-safe execution logic before every run
+#
 ## 🧠 The Process
 
 This project started with a simple question:
@@ -42,8 +42,8 @@ As the playbooks evolved, I layered in:
   - Jinja2 templating to transform raw data into structured reports
   - Control mapping to NIST CSF ID.AM requirements
 The result is an automation pipeline that doesn’t just collect data, but turns system facts into governance-ready intelligence.
-
-## 🧪 What I Learned
+#
+## What I Learned
   - How to design Ansible playbooks for idempotence and safety
   - Translating cybersecurity frameworks into practical automation
   - Structuring raw system data into meaningful compliance artifacts
@@ -51,7 +51,7 @@ The result is an automation pipeline that doesn’t just collect data, but turns
   - Why asset visibility is foundational to detection, response, and risk reduction
 
 This project reinforced how infrastructure automation and cybersecurity governance intersect, especially in regulated or enterprise environments.
-
+#
 ## 🛡️ NIST CSF Alignment
 This automation directly supports:
   - ID.AM-1 – Physical devices and systems inventoried
@@ -59,7 +59,7 @@ This automation directly supports:
   - ID.AM-3 – Organizational communication and data flows identified
   - ID.AM-4 – External information systems cataloged
   - ID.AM-5 – Resources prioritized by classification and criticality
-
+#
 ## 🤖 AI-Assisted Development
 Throughout development, I leveraged ChatGPT (GPT-5) and Claude to:
   - Generate and refine YAML boilerplate
@@ -67,7 +67,7 @@ Throughout development, I leveraged ChatGPT (GPT-5) and Claude to:
   - Review playbooks for scalability and idempotence
   - Improve documentation clarity and structure
 AI tools accelerated iteration while architectural decisions and validation remained manual.
-
+#
 ## 📷 Preview
 <img width="1920" height="1080" alt="S4" src="https://github.com/user-attachments/assets/eef53d11-0ff5-4c0c-856e-83ad1ac3d62c" />
 
