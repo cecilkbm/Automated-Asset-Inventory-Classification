@@ -43,7 +43,7 @@ As the playbooks evolved, I layered in:
   - Control mapping to NIST CSF ID.AM requirements
 The result is an automation pipeline that doesn’t just collect data, but turns system facts into governance-ready intelligence.
 #
-## What I Learned
+## Lessons Learned
   - How to design Ansible playbooks for idempotence and safety
   - Translating cybersecurity frameworks into practical automation
   - Structuring raw system data into meaningful compliance artifacts
