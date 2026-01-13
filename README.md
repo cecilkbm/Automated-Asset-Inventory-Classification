@@ -35,7 +35,7 @@ This project focuses on building repeatable, production-safe automation that imp
 This project started with a simple question:
 “How can asset inventory be made continuous, accurate, and audit-ready?”
 
-Manual inventories quickly become outdated and unreliable, especially at scale. I used Ansible to automate live asset discovery and focused heavily on defensive automation — ensuring every run validates prerequisites before touching a system.
+Manual inventories quickly become outdated and unreliable, especially at scale. I used Ansible to automate live asset discovery and focused heavily on defensive automation, ensuring every run validates prerequisites before touching a system.
 
 As the playbooks evolved, I layered in:
   - Advanced fact gathering
